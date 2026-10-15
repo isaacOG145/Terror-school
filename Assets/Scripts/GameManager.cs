@@ -1,11 +1,12 @@
+using System;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    //Script de prueba 
     void Start()
     {
-        Console.WriteLine("Hola game Manager")
+        
     }
 
     // Update is called once per frame
