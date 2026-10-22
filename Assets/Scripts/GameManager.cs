@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
 
     [Header("Configuración de Victoria")]
     public string winningSceneName = "PantallaVictoria"; // Cambia por el nombre de tu escena final si aplica
+    public string nextSpawnDoorID;
 
     private void Awake()
     {

@@ -5,6 +5,11 @@ using UnityEngine.InputSystem;
 public class ChangeScene : MonoBehaviour
 {
     public string sceneName;
+    
+    [Header("Identificación de Puerta y Spawn")]
+    public string doorID; // ID único de esta puerta (Ej: "Puerta_Habitacion1")
+    public Transform spawnPoint; // Posición donde aparecerá el jugador si entra por esta puerta
+
     public GameObject advert;
     public string playerTag = "Player";
 
@@ -26,13 +31,11 @@ public class ChangeScene : MonoBehaviour
     {
         if (requiresKey)
         {
-            // Verificamos si el GameManager tiene al menos 1 unidad de la llave requerida
             if (GameManager.Instance != null && GameManager.Instance.GetConsumableCount(requiredKeyName) > 0)
             {
-                // Opcional: Consumir la llave al abrir la puerta definitiva
                 GameManager.Instance.UseConsumable(requiredKeyName, 1);
                 Debug.Log("¡Puerta abierta con éxito usando " + requiredKeyName + "!");
-                SceneManager.LoadScene(sceneName);
+                ExecuteSceneChange();
             }
             else
             {
@@ -41,8 +44,19 @@ public class ChangeScene : MonoBehaviour
         }
         else
         {
-            SceneManager.LoadScene(sceneName);
+            ExecuteSceneChange();
         }
+    }
+
+    private void ExecuteSceneChange()
+    {
+        // Guardamos el ID de esta puerta en el GameManager antes de cambiar de escena
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.nextSpawnDoorID = doorID;
+        }
+
+        SceneManager.LoadScene(sceneName);
     }
 
     private void OnTriggerEnter2D(Collider2D other)

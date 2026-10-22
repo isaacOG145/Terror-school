@@ -2,25 +2,49 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-
     [SerializeField] private Transform player;
     public float xmin, ymin, xmax, ymax;
-    float px, py;
+    private float px, py;
 
-    void Update()
+    private void Start()
     {
-        
-        transform.position = new Vector3(px, py, -10);
+        FindPlayer();
+    }
 
-        if(player.position.x >= xmin && player.position.x <= xmax)
+    private void LateUpdate()
+    {
+        // Si la cámara sigue sin referencia al jugador, la intenta buscar dinámicamente
+        if (player == null)
         {
-            px = player.position.x;
+            FindPlayer();
+            if (player == null) return;
         }
 
-        if (player.position.y >= ymin && player.position.y <= ymax)
-        {
-            py = player.position.y;
-        }
+        // Delimitar coordenadas X e Y
+        px = Mathf.Clamp(player.position.x, xmin, xmax);
+        py = Mathf.Clamp(player.position.y, ymin, ymax);
 
+        transform.position = new Vector3(px, py, -10f);
+    }
+
+    // Permite que el PlayerSpawner le asigne el jugador directamente
+    public void SetTarget(Transform newTarget)
+    {
+        player = newTarget;
+        if (player != null)
+        {
+            px = Mathf.Clamp(player.position.x, xmin, xmax);
+            py = Mathf.Clamp(player.position.y, ymin, ymax);
+            transform.position = new Vector3(px, py, -10f);
+        }
+    }
+
+    private void FindPlayer()
+    {
+        GameObject p = GameObject.FindGameObjectWithTag("Player");
+        if (p != null)
+        {
+            SetTarget(p.transform);
+        }
     }
 }
