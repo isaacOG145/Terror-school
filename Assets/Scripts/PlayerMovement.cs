@@ -30,8 +30,7 @@ namespace ClearSky
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            // Restablece la animación de salto al tocar el suelo
-            if (anim != null)
+            if (anim != null && !other.CompareTag("Item"))
             {
                 anim.SetBool("isJump", false);
             }
@@ -51,7 +50,6 @@ namespace ClearSky
 
             Vector3 moveVelocity = Vector3.zero;
 
-            // Restablece la animación de correr por defecto
             if (anim != null)
             {
                 anim.SetBool("isRun", false);
@@ -76,7 +74,6 @@ namespace ClearSky
                     anim.SetBool("isRun", true);
             }
 
-            // Movimiento horizontal
             transform.position += moveVelocity * movePower * Time.deltaTime;
         }
 
@@ -99,11 +96,10 @@ namespace ClearSky
 
             if (!isJumping) return;
 
-            // Aplica la fuerza de salto
-            rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0f); // Limpia la velocidad vertical previa
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0f);
             Vector2 jumpVelocity = new Vector2(0, jumpPower);
             rb.AddForce(jumpVelocity, ForceMode2D.Impulse);
-            
+
             isJumping = false;
         }
     }

@@ -5,7 +5,7 @@ AssetOrigin:
   productId: 198684
   packageName: Cute 2D - College Student
   packageVersion: 1.0
-  assetPath: Assets/CollegeStudent/Sprites/Skeletal.psb
+  assetPath: Assets/Sprites/Player/Skeletal.psb
   uploadId: 441716
 ScriptedImporter:
   internalIDToNameTable: []
